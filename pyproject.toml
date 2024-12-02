@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 authors = [
-    { name = "DuckinEngineer", email = "john.faccinto@unlv.edu" }
+    { name = "TheDuckinEngineer", email = "john.faccinto@unlv.edu" }
 ]
 requires-python = ">=3.12"
 dependencies = [
