@@ -1,0 +1,19 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "keithley-base"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "DuckinEngineer", email = "john.faccinto@unlv.edu" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "ipykernel>=6.29.5",
+    "numpy>=2.1.2",
+    "pandas>=2.2.3",
+    "pyserial>=3.5",
+]

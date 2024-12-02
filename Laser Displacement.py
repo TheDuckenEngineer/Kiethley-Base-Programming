@@ -1,8 +1,8 @@
 """****************************Imports****************************"""
 import socket; import numpy as np; import pandas as pd
 import time; import os.path
-from  keithley_base.keithley_connect import *
-from  keithley_base.keithley_setup import *
+from keithley_base.keithley_connect import *
+from keithley_base.keithley_setup import *
 
 """****************************Device connnection****************************"""
 # define the instrament's IP address. the port is 5025 for LAN connection.

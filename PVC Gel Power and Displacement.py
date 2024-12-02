@@ -1,6 +1,6 @@
 """****************************Imports****************************"""
-from  keithley_base.keithley_connect import *
-from  keithley_base.keithley_setup import *
+from keithley_base.keithley_connect import *
+from keithley_base.keithley_setup import *
 import socket; import numpy as np; import pandas as pd
 import time; 
 
@@ -10,7 +10,7 @@ ip_address = "169.254.253.110"
 my_port = 5025
 
 # establish connection to the LAN socket. initialize and connect to the Keithley
-s = socket.socket()                 # Establish a TCP/IP socket object
+s = socket.socket() # Establish a TCP/IP socket object
 instrument_connect(s, ip_address, my_port, 10000)
 
 # run the code until the program ends or ctr+C is hit.
@@ -35,13 +35,14 @@ try:
     # list the channels used and initize the keithley. the you place these values is 
     # the order the columns will produce the excel sheet
     channels = '118, 119, 120' 
-
+    indivChannels = channels.split(',')
+    
     # setup the channels
     KeithleySetup(s, channels)
-    DcVoltSetup(s, channels[0]) # linear amplifier input voltage
-    AmpsSetup(s, channels[1]) # linear amplifier input amps
-    DcVoltSetup(s, channels[3]) # laser displacement voltage
-    numberOfChannels = len(channels.split(','))
+    DcVoltSetup(s, indivChannels[0]) # linear amplifier input voltage
+    AmpsSetup(s, indivChannels[1]) # linear amplifier input amps
+    DcVoltSetup(s, indivChannels[2]) # laser displacement voltage
+    numberOfChannels = len(indivChannels)
 
     # begin data collection for at least 10 minutes
     instrument_write(s,"INIT")
@@ -65,7 +66,7 @@ except KeyboardInterrupt:
         buffer = np.hstack([buffer, float(np.array(instrument_query(s, f"TRACe:DATA? {i}, {i}, \"Sensing\", READ", 16*bufferSize).split(',')))])
     bufferData = np.vstack([bufferTimes, buffer]).T.reshape(int(len(buffer)/numberOfChannels), 2*numberOfChannels)
         
-    # create the data export matrix. adjusst the final column for the loadcell 
+    # create the data export matrix. adjust the final column for the laser displacement voltage to disp 
     Data = np.vstack([bufferTimes, buffer]).T
     Data[:,-1] = 2.49982*Data[:,-1] - 2.39379
     

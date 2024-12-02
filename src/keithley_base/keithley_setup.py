@@ -1,4 +1,4 @@
-from  keithley_base.keithley_connect import instrument_write
+from keithley_base.keithley_connect import instrument_write
 
 
 """***************KEITHLEY SET UP***************"""
