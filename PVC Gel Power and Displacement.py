@@ -1,6 +1,7 @@
 """****************************Imports****************************"""
 from keithley_base.keithley_connect import *
 from keithley_base.keithley_setup import *
+from keithley_base.functions import *
 import socket; import numpy as np; import pandas as pd
 import time; 
 
@@ -22,12 +23,6 @@ try:
     Parameters = input('     ').upper()
 
 
-    """***********************Data matrices***********************"""
-    # preallocate the data collection matrices
-    buffer = np.zeros(0)
-    bufferTimes = np.zeros(0)
-
-
     """***************Channel setup***************"""
     # list the channels used and initize the keithley. the you place these values is 
     # the order the columns will produce the excel sheet
@@ -44,23 +39,7 @@ try:
     time.sleep(600)
 
 except KeyboardInterrupt:
-# stop the Keithley at an integer value of the data collected
-    while True:
-        bufferSize = int(instrument_query(s, "TRACe:ACTual:END? \"Sensing\"", 16).rstrip())
-        if bufferSize % numberOfChannels == 0:
-            instrument_write(s, "ABORT")
-            break
-        else:
-            pass
-        
-    # collect the data from the buffer
-    print('Reading buffer\n')
-    for i in range(1, bufferSize + 1):
-        # read the measurements and their realtive times
-        measurement = np.array(instrument_query(s, f"TRACe:DATA? {i}, {i}, \"Sensing\", REL, READ", 16*bufferSize).split(','))
-        bufferTimes = np.hstack([bufferTimes, float(measurement[0])])
-        buffer = np.hstack([buffer, float(measurement[1])])
-    Data = np.vstack([bufferTimes, buffer]).T.reshape(int(len(buffer)/numberOfChannels), 2*numberOfChannels)
+    Data = KeithleyStop(s, numberOfChannels)
     
     """****************************Data export****************************"""
     # export the data 

@@ -1,8 +1,10 @@
 """****************************Imports****************************"""
-import socket; import numpy as np; import pandas as pd
+import socket; import numpy as np;
 import time; import os.path
 from keithley_base.keithley_connect import *
 from keithley_base.keithley_setup import *
+from keithley_base.functions import *
+
 
 """****************************Device connnection****************************"""
 # define the instrament's IP address. the port is 5025 for LAN connection.
@@ -22,15 +24,6 @@ try:
     Parameters = input('     ').upper()
 
 
-    """***********************Data matrices***********************"""
-    # prealocate the iteraive fuction
-    bufferInitial = 0
-
-    # preallocate the data collection matrices
-    buffer = np.zeros(0)
-    bufferTimes = np.zeros(0)
-
-
     """***************Channel setup***************"""
     # list the channels used and initize the keithley. the you place these values is 
     # the order the columns will produce the excel sheet
@@ -46,27 +39,7 @@ try:
     time.sleep(600)
 
 except KeyboardInterrupt:
-    # stop the Keithley at an integer value of the data collected
-    while True:
-        bufferSize = int(instrument_query(s, "TRACe:ACTual:END? \"Sensing\"", 16).rstrip())
-        if bufferSize % numberOfChannels == 0:
-            break
-        else:
-            pass
-
-    # stop the Keithley
-    instrument_write(s, "ABORT")
-    print('Reading buffer \n')
-
-    # collect all the data from the buffer
-    for i in range(1,bufferSize+1):
-        # read the measurements and their realtive times
-        buffer = np.hstack([buffer, float(np.array(instrument_query(s, f"TRACe:DATA? {i}, {i}, \"Sensing\", READ", 16*bufferSize).split(',')))])
-        bufferTimes = np.hstack([bufferTimes, float(np.array(instrument_query(s, f"TRACe:DATA? {i}, {i}, \"Sensing\", REL", 16*bufferSize).split(',')))])
-    
-    # create the data export matrix. adjusst the final column for the loadcell 
-    Data = np.vstack([bufferTimes, buffer]).T
-    Data[:,-1] = 2.49982*Data[:,-1] - 2.39379
+    Data = KeithleyStop(s, numberOfChannels)
     
     """****************************Data export****************************"""
     fileName = f'PVC P4 {Parameters}'
