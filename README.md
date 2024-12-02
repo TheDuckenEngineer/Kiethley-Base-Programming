@@ -1,6 +1,4 @@
-# `tpu_sensing`
-
-TPU sensing experiment.
+# `PVE gel power and displacement measurements`
 
 ## First-time setup
 

@@ -73,12 +73,3 @@ def CapacitorSetup(s,channels):
     # set the capacitors range if needed
     # instrument_write(s, f"CAP:RANG 1, (@{channels})")
     return
-
-
-def AmpsSetup(s,channels):
-    # define the channel function
-    instrument_write(s, f"FUNC 'CURR:DC', (@{channels})")
-
-    # set autozero off and line sync on
-    instrument_write(s, f"CURR:DC:AZER OFF, (@{channels})")
-    instrument_write(s, f"CURR:DC:LINE:SYNC ON, (@{channels})")

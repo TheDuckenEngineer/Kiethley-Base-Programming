@@ -23,9 +23,6 @@ try:
 
 
     """***********************Data matrices***********************"""
-    # prealocate the iteraive fuction
-    bufferInitial = 0
-
     # preallocate the data collection matrices
     buffer = np.zeros(0)
     bufferTimes = np.zeros(0)
@@ -34,15 +31,13 @@ try:
     """***************Channel setup***************"""
     # list the channels used and initize the keithley. the you place these values is 
     # the order the columns will produce the excel sheet
+    # 118 - voltage monitor, 119 - amp monitor, 120 - laser displacement 
     channels = '118, 119, 120' 
-    indivChannels = channels.split(',')
     
     # setup the channels
     KeithleySetup(s, channels)
-    DcVoltSetup(s, indivChannels[0]) # linear amplifier input voltage
-    AmpsSetup(s, indivChannels[1]) # linear amplifier input amps
-    DcVoltSetup(s, indivChannels[2]) # laser displacement voltage
-    numberOfChannels = len(indivChannels)
+    DcVoltSetup(s, channels) # linear amplifier input voltage
+    numberOfChannels = len(channels.split(','))
 
     # begin data collection for at least 10 minutes
     instrument_write(s,"INIT")
@@ -60,26 +55,24 @@ except KeyboardInterrupt:
         
     # collect the data from the buffer
     print('Reading buffer\n')
-    for i in range(1, bufferInitial + 1):
+    for i in range(1, bufferSize + 1):
         # read the measurements and their realtive times
-        bufferTimes = np.hstack([bufferTimes, float(np.array(instrument_query(s, f"TRACe:DATA? {i}, {i}, \"Sensing\", REL", 16*bufferSize).split(',')))])
-        buffer = np.hstack([buffer, float(np.array(instrument_query(s, f"TRACe:DATA? {i}, {i}, \"Sensing\", READ", 16*bufferSize).split(',')))])
-    bufferData = np.vstack([bufferTimes, buffer]).T.reshape(int(len(buffer)/numberOfChannels), 2*numberOfChannels)
-        
-    # create the data export matrix. adjust the final column for the laser displacement voltage to disp 
-    Data = np.vstack([bufferTimes, buffer]).T
-    Data[:,-1] = 2.49982*Data[:,-1] - 2.39379
+        measurement = np.array(instrument_query(s, f"TRACe:DATA? {i}, {i}, \"Sensing\", REL, READ", 16*bufferSize).split(','))
+        bufferTimes = np.hstack([bufferTimes, float(measurement[0])])
+        buffer = np.hstack([buffer, float(measurement[1])])
+    Data = np.vstack([bufferTimes, buffer]).T.reshape(int(len(buffer)/numberOfChannels), 2*numberOfChannels)
     
     """****************************Data export****************************"""
     # export the data 
-    # df = pd.DataFrame(columns = ["Time (s)", "Voltage (V)", "Time (s)", "Amps (A)", "Time (s)", "Laser Displacement (mm)"])
+    df = pd.DataFrame(columns = ["Time (s)", "Voltage (V)", "Time (s)", "Amps (mA)", "Time (s)", "Laser Displacement (mm)"])
 
-    # df["Time (s)"] = 
-    # df["Voltage (V)"] = 
-    # df["Amps (A)"] = 
-    # df["Laser Displacement (mm)"] = 
-    
-    # df.to_csv(f"Power Data\{Parameters}.csv", sep = ',', header = True, index = False)
+    df["Time (s)"] = Data[:, 0]
+    df["Voltage (V)"] = Data[:, 1]
+    df["Time (s)"] = Data[:, 2]
+    df["Amps (mA)"] = 0.5*Data[:, 3] # linear amplifier signal calibation 0.5V/mA 
+    df["Time (s)"] = Data[:, 4]
+    df["Laser Displacement (mm)"] = 2.49982*Data[:,-1] - 2.39379 # laser displacement sensor calibration from v to mm
+    df.to_csv(f"Data/{Parameters}.csv", sep = ',', header = True, index = False)
    
     print('\nTest Finished \n\n')
     pass
