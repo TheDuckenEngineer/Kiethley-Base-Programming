@@ -2,7 +2,7 @@
 from keithley_base.keithley_connect import *
 from keithley_base.keithley_setup import *
 from keithley_base.functions import *
-import socket; import numpy as np; import pandas as pd
+import socket; import pandas as pd
 import time; 
 
 """****************************Device connnection****************************"""
@@ -26,7 +26,7 @@ try:
     """***************Channel setup***************"""
     # list the channels used and initize the keithley. the you place these values is 
     # the order the columns will produce the excel sheet
-    # 118 - voltage monitor, 119 - amp monitor, 120 - laser displacement 
+    # 118 - voltage monitor, 119 - current monitor, 120 - laser displacement 
     channels = '118, 119, 120' 
     
     # setup the channels
@@ -50,7 +50,7 @@ except KeyboardInterrupt:
     df["Time (s)"] = Data[:, 2]
     df["Amps (mA)"] = 0.5*Data[:, 3] # linear amplifier signal calibation 0.5V/mA 
     df["Time (s)"] = Data[:, 4]
-    df["Laser Displacement (mm)"] = 2.49982*Data[:,-1] - 2.39379 # laser displacement sensor calibration from v to mm
+    df["Laser Displacement (mm)"] = 2.49982*Data[:, 5] - 2.39379 # laser displacement sensor calibration from V to mm
     df.to_csv(f"Data/{Parameters}.csv", sep = ',', header = True, index = False)
    
     print('\nTest Finished \n\n')

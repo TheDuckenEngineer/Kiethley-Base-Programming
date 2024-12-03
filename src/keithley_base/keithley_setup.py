@@ -32,7 +32,7 @@ def DcVoltSetup(s,channels):
     instrument_write(s, f"FUNC 'VOLT:DC', (@{channels})")
 
     # set range to 1 volt, autozero off, and line sync on
-    instrument_write(s, f"VOLT:DC:RANG 1, (@{channels})")
+    instrument_write(s, f"VOLT:DC:RANG:AUTO On, (@{channels})")
     instrument_write(s, f"VOLT:DC:AZER OFF, (@{channels})")
     instrument_write(s, f"VOLT:DC:LINE:SYNC ON, (@{channels})")
     return
