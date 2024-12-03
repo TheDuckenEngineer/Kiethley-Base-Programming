@@ -36,17 +36,29 @@ try:
     # begin data collection for at least 10 minutes
     instrument_write(s,"INIT")
     time.sleep(600)
-
-except KeyboardInterrupt:
     Data = KeithleyStop(s, numberOfChannels)
     
+
     """****************************Data export****************************"""
-       # export the data 
+    # export the data 
     df = pd.DataFrame(columns = ["Time (s)", "Laser Displacement (mm)"])
 
     df["Time (s)"] = Data[:, 0]
     df["Laser Displacement (mm)"] = 2.49982*Data[:, 1] - 2.39379 # laser displacement sensor calibration from V to mm
 
     df.to_csv(f"Data/{Parameters}.csv", sep = ',', header = True, index = False)
-    print('\nTest aborted')
+    print('\nTest finished')
+
+except KeyboardInterrupt:
+    Data = KeithleyStop(s, numberOfChannels)
+    
+    """****************************Data export****************************"""
+    # export the data 
+    df = pd.DataFrame(columns = ["Time (s)", "Laser Displacement (mm)"])
+
+    df["Time (s)"] = Data[:, 0]
+    df["Laser Displacement (mm)"] = 2.49982*Data[:, 1] - 2.39379 # laser displacement sensor calibration from V to mm
+
+    df.to_csv(f"Data/{Parameters}.csv", sep = ',', header = True, index = False)
+    print('\nTest finished')
     pass
