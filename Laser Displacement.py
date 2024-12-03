@@ -1,6 +1,5 @@
 """****************************Imports****************************"""
-import socket; import numpy as np;
-import time; import os.path
+import socket; import time; import pandas as pd
 from keithley_base.keithley_connect import *
 from keithley_base.keithley_setup import *
 from keithley_base.functions import *
@@ -20,7 +19,7 @@ try:
     """***************Test parameters***************"""
     # input the gel type and its plasticizer content
     # print('List the gel type, plasticizer content, type, and % \n Ex: PVC P2 [N,U, or R]0.0%')
-    print('List the GO concentratioin in %, and input function \n Ex:PVC X GO 0.0% [cyclic or step]')
+    print('Input material parameters and objective for file name')
     Parameters = input('     ').upper()
 
 
@@ -42,12 +41,12 @@ except KeyboardInterrupt:
     Data = KeithleyStop(s, numberOfChannels)
     
     """****************************Data export****************************"""
-    fileName = f'PVC P4 {Parameters}'
-    if os.path.isfile(fileName) == 0:
-        np.savetxt(f"{fileName}.csv", Data, delimiter=",")
-    elif os.path.isfile(fileName) == 1:
-        os.remove(fileName)
-        np.savetxt(f"{fileName}.csv", Data, delimiter=",")
-    instrument_write(s, "ABORT")
+       # export the data 
+    df = pd.DataFrame(columns = ["Time (s)", "Laser Displacement (mm)"])
+
+    df["Time (s)"] = Data[:, 0]
+    df["Laser Displacement (mm)"] = 2.49982*Data[:, 1] - 2.39379 # laser displacement sensor calibration from V to mm
+
+    df.to_csv(f"Data/{Parameters}.csv", sep = ',', header = True, index = False)
     print('\nTest aborted')
     pass
