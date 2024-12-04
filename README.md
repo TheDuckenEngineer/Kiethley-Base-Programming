@@ -10,9 +10,8 @@ https://code.visualstudio.com/
 https://git-scm.com/downloads/win
 
 Finally, install uv-sync. Open the PowerShell or command terminal and paste the following code. Restart the computer after installation.
-'''
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-'''	
+'''powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"'''
+	
 
 # Keithley Scripts Installation 
 Go to TheDuckenEngineers GitHub and click on the Keithley-Base-Programming repository. Move to the green code drop down and press copy link.
@@ -20,17 +19,15 @@ https://github.com/TheDuckenEngineer/Kiethley-Base-Programming
 ![image](https://github.com/user-attachments/assets/406f9bb3-6a5c-4ffb-85b6-df844e55781e)
 
 Open a new window in VSCode. If it’s prepopulated, it means the current window is working in a directory in your computer. Opening a new window creates an unlinked directory that the Keithley scripts can be saved, unaffecting other directories and scripts.
- ![image](https://github.com/user-attachments/assets/4486cd54-f73a-4313-a08e-5702815469c7)
+![image](https://github.com/user-attachments/assets/4486cd54-f73a-4313-a08e-5702815469c7)
 
 Select the folder location and hit enter. A prompt will ask to open the new folder to which you say yes. When it opens, head to the Laser Displacement and open. The top imports should have a yellow underscore. This is fine and we should proceed to the next step. 
 
-Open the folder containing the Keithley scripts.
+Open the folder containing the Keithley scripts. 
 ![image](https://github.com/user-attachments/assets/e946c14f-7e99-43e4-83ed-78c75205450b)
 
 Right click and scroll down to the terminal option. This will produce a black (or blue) terminal window for that directory. Copy and paste the following command. It will automatically begin downloading all necessary libraries, the python virtual environment, and establish communication to the source (src) folder. 
-'''
-uv run --script Test.py --with .
-'''
+'''uv run --script Test.py --with .'''
 Restart VSCode. The top import lines won’t have the yellow underscore showing the setup is complete. 
 
 Finish by making a Data folder for your dated to be automatically stored into. 
