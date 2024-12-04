@@ -1,4 +1,4 @@
-# Introduction
+![image](https://github.com/user-attachments/assets/d4bd6cbf-54fe-4797-b9c3-0174f5ccd7c7)# Introduction
 In order to speed up data collection within the lab, a set of python scripts have been developed to access the Keithley buffer and store its results in a csv. This permits faster data collection without data overwriting as a result of starting a new scan before saving the previous buffer. Additionally, these scripts automatically adjust the Keithley channels to the appropriate scan settings. 
 The purpose of this guide is to enable any lab user the ability to connect and collect data from a Keithley DAQ6510 with any computer for data collection using an ethernet cable. 
 There are three programs that need to be downloaded before using the Keithley scripts. First is VSCode. This is a versatile and powerful programming environment with many open-source extensions to make programing easier. It can be used with any coding language so long as the language is installed on the device. Second is git. Git is a version control system that facilitates communication between GitHub, the location of our code, and VSCode. Note, unless you want to make meaningful improvements to the code, you don’t need a GitHub account. As new updates come about, git will automatically install these on your device. It will override any adjustments you’ve made so make sure to document these changes. The final program is uv-sync. This revolutionary program will find the necessary library dependencies the Keithley scripts use and download them onto your system. This makes the Keithley scripts immediately usable. 
@@ -16,13 +16,16 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 # Keithley Scripts Installation 
 Go to TheDuckenEngineers GitHub and click on the Keithley-Base-Programming repository. Move to the green code drop down and press copy link.
 https://github.com/TheDuckenEngineer/Kiethley-Base-Programming
- 
+![image](https://github.com/user-attachments/assets/406f9bb3-6a5c-4ffb-85b6-df844e55781e)
+
 Open a new window in VSCode. If it’s prepopulated, it means the current window is working in a directory in your computer. Opening a new window creates an unlinked directory that the Keithley scripts can be saved, unaffecting other directories and scripts.
- 
+ ![image](https://github.com/user-attachments/assets/4486cd54-f73a-4313-a08e-5702815469c7)
+
 Select the folder location and hit enter. A prompt will ask to open the new folder to which you say yes. When it opens, head to the Laser Displacement and open. The top imports should have a yellow underscore. This is fine and we should proceed to the next step. 
 
 Open the folder containing the Keithley scripts. 
- 
+![image](https://github.com/user-attachments/assets/e946c14f-7e99-43e4-83ed-78c75205450b)
+
 Right click and scroll down to the terminal option. This will produce a black (or blue) terminal window for that directory. Copy and paste the following command. It will automatically begin downloading all necessary libraries, the python virtual environment, and establish communication to the source (src) folder. 
 uv run --script Test.py --with .
 Restart VSCode. The top import lines won’t have the yellow underscore showing the setup is complete. 
@@ -30,9 +33,10 @@ Restart VSCode. The top import lines won’t have the yellow underscore showing 
 Finish by making a Data folder for your dated to be automatically stored into. 
 
 Updates will manifest at the bottom left of the program. Updates will show as a number attributed to the downwards arrow. Be sure to check this occasionally. 
- 
+![image](https://github.com/user-attachments/assets/24897d88-4c89-45d3-ba98-97b3ec5fa97f)
 
-# Description of Codes
+
+# Description of Code
 Each code block is separated by headers indicating what the following body of code performs. Since python is a high-level programming language it’s easy to read each line and understand what each does. A small description of important features will be listed here. 
 
 ## Device Connection
