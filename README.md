@@ -10,8 +10,9 @@ https://code.visualstudio.com/
 https://git-scm.com/downloads/win
 
 Finally, install uv-sync. Open the PowerShell or command terminal and paste the following code. Restart the computer after installation.
+'''
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-	
+'''	
 
 # Keithley Scripts Installation 
 Go to TheDuckenEngineers GitHub and click on the Keithley-Base-Programming repository. Move to the green code drop down and press copy link.
@@ -23,11 +24,13 @@ Open a new window in VSCode. If it’s prepopulated, it means the current window
 
 Select the folder location and hit enter. A prompt will ask to open the new folder to which you say yes. When it opens, head to the Laser Displacement and open. The top imports should have a yellow underscore. This is fine and we should proceed to the next step. 
 
-Open the folder containing the Keithley scripts. 
+Open the folder containing the Keithley scripts.
 ![image](https://github.com/user-attachments/assets/e946c14f-7e99-43e4-83ed-78c75205450b)
 
 Right click and scroll down to the terminal option. This will produce a black (or blue) terminal window for that directory. Copy and paste the following command. It will automatically begin downloading all necessary libraries, the python virtual environment, and establish communication to the source (src) folder. 
+'''
 uv run --script Test.py --with .
+'''
 Restart VSCode. The top import lines won’t have the yellow underscore showing the setup is complete. 
 
 Finish by making a Data folder for your dated to be automatically stored into. 
