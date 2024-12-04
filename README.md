@@ -10,7 +10,7 @@ https://code.visualstudio.com/
 https://git-scm.com/downloads/win
 
 Finally, install uv-sync. Open the PowerShell or command terminal and paste the following code. Restart the computer after installation.
-'''powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"'''
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 	
 
 # Keithley Scripts Installation 
@@ -27,12 +27,12 @@ Open the folder containing the Keithley scripts.
 ![image](https://github.com/user-attachments/assets/e946c14f-7e99-43e4-83ed-78c75205450b)
 
 Right click and scroll down to the terminal option. This will produce a black (or blue) terminal window for that directory. Copy and paste the following command. It will automatically begin downloading all necessary libraries, the python virtual environment, and establish communication to the source (src) folder. 
-'''uv run --script Test.py --with .'''
+uv run --script Test.py --with .
 Restart VSCode. The top import lines won’t have the yellow underscore showing the setup is complete. 
 
 Finish by making a Data folder for your dated to be automatically stored into. 
 
-Updates will manifest at the bottom left of the program. Updates will show as a number attributed to the downwards arrow. Be sure to check this occasionally. 
+Updates will manifest at the bottom left of the program. Updates will show as a number attributed to the downwards arrow. Be sure to check this occasionally.
 ![image](https://github.com/user-attachments/assets/24897d88-4c89-45d3-ba98-97b3ec5fa97f)
 
 
