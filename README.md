@@ -26,7 +26,7 @@ Select the folder location and hit enter. A prompt will ask to open the new fold
 Open the folder containing the Keithley scripts. 
 ![image](https://github.com/user-attachments/assets/e946c14f-7e99-43e4-83ed-78c75205450b)
 
-Right click and scroll down to the terminal option. This will produce a black (or blue) terminal window for that directory. Copy and paste the following command. It will automatically begin downloading all necessary libraries, the python virtual environment, and establish communication to the source (src) folder. 
+Right click and scroll down to the terminal option. This will produce a black (or blue) terminal window for that directory. Copy and paste the following command. It will automatically begin downloading all necessary libraries, the python virtual environment, and establish communication to the source (src) folder.
 uv run --script Test.py --with .
 Restart VSCode. The top import lines won’t have the yellow underscore showing the setup is complete. 
 
