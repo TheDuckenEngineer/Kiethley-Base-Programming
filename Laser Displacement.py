@@ -7,12 +7,12 @@ from keithley_base.functions import *
 
 """****************************Device connnection****************************"""
 # define the instrament's IP address. the port is 5025 for LAN connection.
-ip_address = "169.254.253.110"
-my_port = 5025
+ipAddress = "169.254.253.110"
+myPort = 5025
 
 # establish connection to the LAN socket. initialize and connect to the Keithley
 s = socket.socket()                 # Establish a TCP/IP socket object
-instrument_connect(s, ip_address, my_port, 10000)
+InstrumentConnect(s, ipAddress, myPort, 10000)
 
 # run the code until the program ends or ctr+C is hit.
 try: 
@@ -34,7 +34,7 @@ try:
     numberOfChannels = len(channels.split(','))
 
     # begin data collection for at least 10 minutes
-    instrument_write(s,"INIT")
+    InstrumentWrite(s,"INIT")
     time.sleep(600)
     Data = KeithleyStop(s, numberOfChannels)
     
