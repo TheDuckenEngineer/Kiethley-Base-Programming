@@ -40,15 +40,15 @@ try:
     Data = KeithleyStop(s, numberOfChannels)
     
     """****************************Data export****************************"""
-    # export the data 
-    df = pd.DataFrame(columns = ["Time (s)", "Voltage (V)", "Time (s)", "Amps (mA)", "Time (s)", "Laser Displacement (mm)"])
+    # export the data
+    df = pd.DataFrame(columns = ["Voltage Time (s)", "Voltage (V)", "Amps Time (s)", "Amps (mA)", "Displacement Time (s)", "Displacement (mm)"])
 
-    df["Time (s)"] = Data[:, 0]
+    df["Voltage Time (s)"] = Data[:, 0]
     df["Voltage (V)"] = Data[:, 1]
-    df["Time (s)"] = Data[:, 2]
+    df["Amps Time (s)"] = Data[:, 2]
     df["Amps (mA)"] = 0.5*Data[:, 3] # linear amplifier signal calibation 0.5V/mA 
-    df["Time (s)"] = Data[:, 4]
-    df["Laser Displacement (mm)"] = 2.49982*Data[:, 5] - 2.39379 # laser displacement sensor calibration from V to mm
+    df["Displacement Time (s)"] = Data[:, 4]
+    df["Displacement (mm)"] = 2.49982*Data[:, 5] - 2.39379 # laser displacement sensor calibration from V to mm
     df.to_csv(f"Data/{Parameters}.csv", sep = ',', header = True, index = False)
    
     print('\nTest Finished \n\n')
@@ -58,14 +58,14 @@ except KeyboardInterrupt:
     
     """****************************Data export****************************"""
     # export the data 
-    df = pd.DataFrame(columns = ["Time (s)", "Voltage (V)", "Time (s)", "Amps (mA)", "Time (s)", "Laser Displacement (mm)"])
+    df = pd.DataFrame(columns = ["Voltage Time (s)", "Voltage (V)", "Amps Time (s)", "Amps (mA)", "Displacement Time (s)", "Displacement (mm)"])
 
-    df["Time (s)"] = Data[:, 0]
+    df["Voltage Time (s)"] = Data[:, 0]
     df["Voltage (V)"] = Data[:, 1]
-    df["Time (s)"] = Data[:, 2]
+    df["Amps Time (s)"] = Data[:, 2]
     df["Amps (mA)"] = 0.5*Data[:, 3] # linear amplifier signal calibation 0.5V/mA 
-    df["Time (s)"] = Data[:, 4]
-    df["Laser Displacement (mm)"] = 2.49982*Data[:, 5] - 2.39379 # laser displacement sensor calibration from V to mm
+    df["Displacement Time (s)"] = Data[:, 4]
+    df["Displacement (mm)"] = 2.49982*Data[:, 5] - 2.39379 # laser displacement sensor calibration from V to mm
     df.to_csv(f"Data/{Parameters}.csv", sep = ',', header = True, index = False)
    
     print('\nTest Finished \n\n')
