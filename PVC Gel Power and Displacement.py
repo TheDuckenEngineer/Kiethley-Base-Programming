@@ -46,7 +46,7 @@ try:
     df["Voltage Time (s)"] = Data[:, 0]
     df["Voltage (V)"] = Data[:, 1]
     df["Amps Time (s)"] = Data[:, 2]
-    df["Amps (mA)"] = 0.5*Data[:, 3] # linear amplifier signal calibation 0.5V/mA 
+    df["Amps (mA)"] = 2*Data[:, 3] # linear amplifier signal calibation 2mA/V 
     df["Displacement Time (s)"] = Data[:, 4]
     df["Displacement (mm)"] = 2.49982*Data[:, 5] - 2.39379 # laser displacement sensor calibration from V to mm
     df.to_csv(f"Data/{Parameters}.csv", sep = ',', header = True, index = False)
@@ -63,7 +63,7 @@ except KeyboardInterrupt:
     df["Voltage Time (s)"] = Data[:, 0]
     df["Voltage (V)"] = Data[:, 1]
     df["Amps Time (s)"] = Data[:, 2]
-    df["Amps (mA)"] = 0.5*Data[:, 3] # linear amplifier signal calibation 0.5V/mA 
+    df["Amps (mA)"] = 2*Data[:, 3] # linear amplifier signal calibation 2mA/V 
     df["Displacement Time (s)"] = Data[:, 4]
     df["Displacement (mm)"] = 2.49982*Data[:, 5] - 2.39379 # laser displacement sensor calibration from V to mm
     df.to_csv(f"Data/{Parameters}.csv", sep = ',', header = True, index = False)
