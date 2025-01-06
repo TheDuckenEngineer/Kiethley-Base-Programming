@@ -30,7 +30,9 @@ Right click and scroll down to the terminal option. This will produce a black (o
 uv run --script Test.py --with .
 Restart VSCode. The top import lines won’t have the yellow underscore showing the setup is complete. 
 
-Finish by making a Data folder for your dated to be automatically stored into. 
+## Getting started
+After installed, finish by making a 'Data' folder. The script automatically places your data in a folder named 'Data'.
+The Juptier notebook isn't likely to run readily and an error code will be thrown. To fix this, click the drop down on the run button and run in a dedicated terminal. 
 
 Updates will manifest at the bottom left of the program. Updates will show as a number attributed to the downwards arrow. Be sure to check this occasionally.
 ![image](https://github.com/user-attachments/assets/24897d88-4c89-45d3-ba98-97b3ec5fa97f)
