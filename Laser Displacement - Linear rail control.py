@@ -30,18 +30,18 @@ def EPICFinder(s, ser, stepSize):
         if bufferSize <= 200:
             pass    
         elif bufferSize > 200:
+                time.sleep(0.2)
                 # read the buffer value and the average
-                time.sleep(0.025)
                 buffer = float(InstrumentQuery(s, f"TRACe:DATA? {bufferSize}, {bufferSize}, \"Sensing\", READ", 16).split(',')[0])
                 bufferAverage = float(InstrumentQuery(s, "TRACe:STATistics:AVERage? \"Sensing\"", 16))
                 print(np.round(bufferAverage, 6), buffer)
                 
                 # termination is when the laser displacement sees variance above the average. at termination, the actuator
                 # moves back one step. future steps are cut in half. this is occurs two times before reaching zero. 
-                if np.abs(bufferAverage - buffer) >= 0.00009:
-                    PrintCommand(ser, f'G0 F200 Z{stepSize} \n')
+                if np.abs(bufferAverage - buffer) <= 0.1:
+                    PrintCommand(ser, f'G1 F200 Z{stepSize} \n')
                 else:
-                    PrintCommand(ser, f'G0 F200 Z{-stepSize} \n')
+                    PrintCommand(ser, f'G1 F200 Z{-stepSize} \n')
                     break
 
     InstrumentWrite(s,"ABORT")
@@ -57,7 +57,7 @@ s = socket.socket()                 # Establish a TCP/IP socket object
 InstrumentConnect(s, ipAddress, myPort, 10000)
 
 # connect to the 3d printer
-ser = serial.Serial('COM5', 250000, timeout = 1)
+ser = serial.Serial('COM6', 115200, timeout = 1)
 time.sleep(1)
 PrintCommand(ser, "G28 Z \n")
 
@@ -82,8 +82,10 @@ try:
 
     # find the EPIC boundary. set the rail to relative position mode then move until we find the boundary.
     PrintCommand(ser,f'G91 \n')
-    EPICFinder(s, ser, 1)
+    EPICFinder(s, ser, 0.5)
+    PrintCommand(ser, f'G1 F200 Z-1 \n')
     EPICFinder(s, ser, 0.01)
+    print("\n Begin Test \n")
 
     # begin data collection for at least 10 minutes
     InstrumentWrite(s,"INIT")
@@ -92,16 +94,16 @@ try:
     # set the printer to absolute mode and zero the z axis. move the printer slowly back and forth
     PrintCommand(ser, "G90 \n")
     PrintCommand(ser, "G92 Z0 \n")
-    PrintCommand(ser, "G0 Z60 F100 \n")
-    PrintCommand(ser, "G0 Z0 F100 \n")
-    PrintCommand(ser, "G0 Z60 F100 \n")
+    PrintCommand(ser, "G1 Z45 F100 \n")
+    PrintCommand(ser, "G1 Z0 F100 \n")
+    PrintCommand(ser, "G1 Z45 F100 \n")
     time.sleep(600)
     Data = KeithleyStop(s, numberOfChannels)
     
 
     """****************************Data export****************************"""
     # export the data 
-    df = pd.DataFrame(columns = ["Postion (mm)", "Height (mm)"])
+    df = pd.DataFrame(columns = ["Position (mm)", "Height (mm)"])
 
     # convert time to displacement. the rail moves at 100 mm/min or 100/60 mm/s
     df["Position (mm)"] = Data[:, 0]*100/60
@@ -113,9 +115,10 @@ try:
 except KeyboardInterrupt:
     Data = KeithleyStop(s, numberOfChannels)
     
+    
     """****************************Data export****************************"""
     # export the data 
-    df = pd.DataFrame(columns = ["Postion (mm)", "Height (mm)"])
+    df = pd.DataFrame(columns = ["Position (mm)", "Height (mm)"])
 
     # convert time to displacement. the rail moves at 100 mm/min or 100/60 mm/s
     df["Position (mm)"] = Data[:, 0]*100/60
