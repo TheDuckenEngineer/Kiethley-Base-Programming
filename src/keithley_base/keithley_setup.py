@@ -29,7 +29,7 @@ def KeithleySetup(s,channels):
 """***************CHANNEL SET UP***************"""
 def DcVoltSetup(s,channels):
     # define the channel function
-    InstrumentWrite(s, f"FUNC 'VOLT:DC', (@{channels})")
+    InstrumentWrite(s, f"FUNC 'VOLT', (@{channels})")
 
     # set range to 1 volt, autozero off, and line sync on
     InstrumentWrite(s, f"VOLT:DC:RANG:AUTO On, (@{channels})")
@@ -37,6 +37,16 @@ def DcVoltSetup(s,channels):
     InstrumentWrite(s, f"VOLT:DC:LINE:SYNC ON, (@{channels})")
     return
 
+def DcDigiVoltSetup(s,channels):
+    # define the channel function
+    InstrumentWrite(s, f"DIG:FUNC:ON 'VOLT', (@{channels})")
+
+    # set range to 1 volt, autozero off, and line sync on
+    InstrumentWrite(s, f"DIG:VOLT:RANG 1, (@{channels})")
+    InstrumentWrite(s, f"DIG:VOLT:SRATE 1000, (@{channels})")
+    InstrumentWrite(s, f"DIG:COUN 1, (@{channels})")
+    InstrumentWrite(s, f":ROUT:DEL 0, (@{channels})")
+    return
 
 def ResistanceSetup(s,channels):
     # define the channel function

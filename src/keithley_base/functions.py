@@ -1,12 +1,18 @@
 from keithley_base.keithley_connect import *
-import numpy as np
-
+import numpy as np  
 
 def KeithleyStop(s, numberOfChannels):
     
+    # the Keithley is read by a collection of measurements. make the collection size automatically 
+    # a multiple of the number of expected measurements. if theere is only one channel, set the 
+    # collection to 30 so to not break the modulus equation
+    if numberOfChannels > 1:
+        collectionSize = int(200/numberOfChannels - 200%numberOfChannels)
+    else:
+        collectionSize = 30
+
     # preallocate the data collection matrices
-    buffer = np.zeros(0)
-    bufferTimes = np.zeros(0)
+    measurement = np.zeros(0, dtype = float)
     
     # stop the Keithley at an integer value of the data collected
     while True:
@@ -19,10 +25,12 @@ def KeithleyStop(s, numberOfChannels):
         
     # collect the data from the buffer
     print('Reading buffer\n')
-    for i in range(1, bufferSize + 1):
+    index = np.arange(1, bufferSize, collectionSize) 
+    for i in range(0, len(index) - 1):
         # read the measurements and their realtive times
-        measurement = np.array(InstrumentQuery(s, f"TRACe:DATA? {i}, {i}, \"Sensing\", REL, READ", 16*bufferSize).split(','))
-        bufferTimes = np.hstack([bufferTimes, float(measurement[0])])
-        buffer = np.hstack([buffer, float(measurement[1])])
-    Data = np.vstack([bufferTimes, buffer]).T.reshape(int(len(buffer)/numberOfChannels), 2*numberOfChannels)
+        buffer = np.float64(np.array(InstrumentQuery(s, f"TRACe:DATA? {index[i]}, {index[i + 1] - 1}, \"Sensing\", REL, READ", 16*bufferSize).split(',')))
+        measurement = np.hstack([measurement, buffer])
+
+    Data = measurement.reshape(int(len(measurement)/2/numberOfChannels), 2*numberOfChannels)
+    
     return Data
