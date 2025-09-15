@@ -3,11 +3,10 @@ import numpy as np
 
 def KeithleyStop(s, numberOfChannels):
     
-    # the Keithley is read by a collection of measurements. make the collection size automatically 
-    # a multiple of the number of expected measurements. if theere is only one channel, set the 
-    # collection to 30 so to not break the modulus equation
+    # read the Keithley buffer by groups of measurements. This needs to be a 
+    # double multiplicly of the number of channels. 
     if numberOfChannels > 1:
-        collectionSize = int(200/numberOfChannels - 200%numberOfChannels)
+        collectionSize = int(220 - 200%numberOfChannels**2)/numberOfChannels**2
     else:
         collectionSize = 30
 
